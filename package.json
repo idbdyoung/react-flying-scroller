@@ -1,0 +1,22 @@
+{
+  "name": "flying-scroller",
+  "version": "0.0.1",
+  "description": "flying scroller",
+  "keywords": [
+    "scroller",
+    "react"
+  ],
+  "main": "dist/index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "author": {
+    "name": "idbdyoung",
+    "email": "idbd.young@gmail.com",
+    "url": "https://idbdyoung.com"
+  },
+  "license": "MIT",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
