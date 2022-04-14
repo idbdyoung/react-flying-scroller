@@ -3,6 +3,6 @@
 .idea
 Makefile
 docs/
-examples/
+example/
 support/
 test/
