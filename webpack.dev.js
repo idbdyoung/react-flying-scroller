@@ -9,6 +9,9 @@ module.exports = merge(common, {
   entry: {
     index: "./index.js",
   },
+  devServer: {
+    historyApiFallback: true,
+  },
   module: {
     rules: [
       {
