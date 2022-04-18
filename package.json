@@ -22,9 +22,12 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "prop-types": "^15.8.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "styled-components": "^5.3.5"
+    "react-router-dom": "^6.3.0",
+    "styled-components": "^5.3.5",
+    "styled-reset": "^4.3.4"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.6",
@@ -32,6 +35,7 @@
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
     "babel-loader": "^8.2.4",
+    "file-loader": "^6.2.0",
     "html-loader": "^3.1.0",
     "html-webpack-plugin": "^5.5.0",
     "ts-loader": "^9.2.8",
