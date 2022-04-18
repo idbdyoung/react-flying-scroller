@@ -1,12 +1,8 @@
 import React from "react";
-import styled from "styled-components";
-
-const Container = styled.div`
-  background: red;
-`;
+import { Outlet } from "react-router-dom";
 
 const App = () => {
-  return <Container>Hello React and webpack</Container>;
+  return <Outlet />;
 };
 
 export default App;
