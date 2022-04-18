@@ -1,6 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
+import Avatar from "../images/Avatar.png";
+import FlyingAvatar from "../images/FlyingAvatar.png";
+
 import { Container as FlyScrollerContainer, Wrapper, Board } from "../../lib";
 
 const Cont = styled.div`
@@ -19,6 +22,11 @@ const Second = styled.div`
   height: 1500px;
   background: green;
 `;
+
+const avatar = {
+  walking: Avatar,
+  flying: FlyingAvatar,
+};
 
 const Home = () => {
   return (

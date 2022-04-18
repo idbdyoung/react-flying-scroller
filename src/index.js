@@ -16,11 +16,9 @@ const GlobalStyle = createGlobalStyle`
   ${reset}
 `;
 
-const options = {};
-
 root.render(
   <BrowserRouter>
-    <FlyingScrollerProvider {...options}>
+    <FlyingScrollerProvider>
       <GlobalStyle />
       <Routes>
         <Route path="" element={<App />}>
