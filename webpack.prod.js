@@ -6,6 +6,13 @@ module.exports = merge(common, {
   mode: "production",
   context: path.resolve(__dirname, "lib"),
   entry: {
-    index: "./index.js",
+    index: "./index.tsx",
+  },
+  output: {
+    clean: true,
+    path: path.resolve(__dirname, "dist"),
+    filename: "[name].js",
+    libraryTarget: "umd",
+    library: "flying-scroller",
   },
 });

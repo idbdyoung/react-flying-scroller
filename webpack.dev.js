@@ -7,7 +7,11 @@ module.exports = merge(common, {
   mode: "development",
   context: path.resolve(__dirname, "src"),
   entry: {
-    index: "./index.js",
+    index: "./index.tsx",
+  },
+  output: {
+    path: path.resolve(__dirname, "dist"),
+    filename: "[name].js",
   },
   devServer: {
     historyApiFallback: true,

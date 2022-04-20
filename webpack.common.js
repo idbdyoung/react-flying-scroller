@@ -1,23 +1,14 @@
-const path = require("path");
-
 module.exports = {
-  output: {
-    clean: true,
-    path: path.resolve(__dirname, "dist"),
-    filename: "[name].js",
-  },
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(js|jsx|ts|tsx)$/,
+        use: "ts-loader",
         exclude: /node_modules/,
-        use: {
-          loader: "babel-loader",
-          options: {
-            presets: ["@babel/preset-env", "@babel/preset-react"],
-          },
-        },
       },
     ],
+  },
+  resolve: {
+    extensions: [".js", ".jsx", ".ts", ".tsx"],
   },
 };
