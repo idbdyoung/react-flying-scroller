@@ -1,8 +1,9 @@
 .DS_Store
 .git*
-.idea
-Makefile
-docs/
-example/
-support/
-test/
+lib/
+src/
+package-lock.json
+package.json
+webpack.common.js
+webpack.dev.js
+webpack.prod.js
