@@ -13,6 +13,9 @@ module.exports = merge(common, {
     path: path.resolve(__dirname, "dist"),
     filename: "[name].js",
     libraryTarget: "umd",
-    library: "flying-scroller",
+    library: "flying-scrollerss",
+  },
+  externals: {
+    react: "react",
   },
 });
