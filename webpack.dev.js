@@ -5,9 +5,9 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = merge(common, {
   mode: "development",
-  context: path.resolve(__dirname, "src"),
+  context: path.resolve(__dirname, "example"),
   entry: {
-    index: "./index.tsx",
+    index: "./index.js",
   },
   output: {
     path: path.resolve(__dirname, "dist"),
