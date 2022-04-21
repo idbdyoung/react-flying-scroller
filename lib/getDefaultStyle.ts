@@ -1,4 +1,14 @@
-const getStyle = (type) => {
+import React, { HTMLAttributes } from "react";
+
+export interface DivStyleProp extends HTMLAttributes<HTMLDivElement> {}
+
+type ComponentType = "board" | "container" | "avatar";
+
+const getDefaultStyle = (
+  type: ComponentType
+):
+  | React.CSSProperties
+  | ((avatarState: any, height: number) => React.CSSProperties) => {
   switch (type) {
     case "board": {
       return {
@@ -31,4 +41,4 @@ const getStyle = (type) => {
   }
 };
 
-export default getStyle;
+export default getDefaultStyle;
