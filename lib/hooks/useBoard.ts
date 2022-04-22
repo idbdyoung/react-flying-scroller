@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from "react";
+
 import useScroller from "./useScroller";
 import useWindowWidth from "./useWindowWidth";
 
 const useBoardWidth = () => {
   const { avatarWidth } = useScroller();
   const windowWidth = useWindowWidth();
-  const boardRef = useRef();
-  const [width, setWidth] = useState(0);
-  const [height, setHeight] = useState(0);
+  const boardRef = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState<number>(0);
+  const [height, setHeight] = useState<number>(0);
 
   useEffect(() => {
     if (!boardRef.current) return;

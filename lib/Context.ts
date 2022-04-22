@@ -5,7 +5,7 @@ export type AvatarImage = {
   flying: JSX.Element;
 };
 
-type DirectPoints = {
+export type DirectPoints = {
   [key: string]: number;
 };
 
@@ -14,10 +14,10 @@ type Context = {
   avatarImage?: AvatarImage;
   avatarWidth: number;
   directPoints: DirectPoints;
-  registScrollContainer: (...any: any) => void;
-  registAvatarImage: (...any: any) => void;
-  registAvatarSize: (...any: any) => void;
-  registDirectPoint: (...any: any) => void;
+  registScrollContainer: ($el: HTMLDivElement) => void;
+  registAvatarImage: (avatarImage: AvatarImage) => void;
+  registAvatarWidth: (size: number) => void;
+  registDirectPoint: (name: string, height: number) => void;
 };
 
 const initial = {
@@ -27,7 +27,7 @@ const initial = {
   directPoints: {},
   registScrollContainer: () => {},
   registAvatarImage: () => {},
-  registAvatarSize: () => {},
+  registAvatarWidth: () => {},
   registDirectPoint: () => {},
 };
 

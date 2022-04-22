@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 
 const useWindowWidth = () => {
-  const [width, setWidth] = useState(window.innerWidth);
+  const [width, setWidth] = useState<number>(window.innerWidth);
 
   useEffect(() => {
-    let timer;
+    let timer: NodeJS.Timeout;
 
-    const handleResize = (e) => {
+    const handleResize = () => {
       if (timer) {
         clearTimeout(timer);
       }

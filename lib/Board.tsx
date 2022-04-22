@@ -1,23 +1,45 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  CSSProperties,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 import useBoard from "./hooks/useBoard";
 import useScroller from "./hooks/useScroller";
-import getStyle from "./getStyle";
+
 import Avatar from "./Avatar";
 
-const Board = ({ style }) => {
+export type AvatarState = {
+  locationX: number;
+  flyingEffect: string;
+  movingRight: boolean;
+};
+
+const defaultStyle: CSSProperties = {
+  display: "flex",
+  flexDirection: "column",
+  width: "100%",
+  height: "100px",
+  overflowY: "scroll",
+  background: "pink",
+  position: "relative",
+};
+
+const Board = ({ style }: { style?: CSSProperties }) => {
   const { $scrollContainer } = useScroller();
   const { boardRef, width: boardWidth, height: boardHeight } = useBoard();
   const isAnimationRunning = useRef(false);
-  const animationId = useRef(null);
-  const [avatarState, setAvatarState] = useState({
+  const animationId = useRef<number>();
+  const [avatarState, setAvatarState] = useState<AvatarState>({
     locationX: 0,
     flyingEffect: "",
     movingRight: true,
   });
 
   const moveAvatar = useCallback(
-    (prop, value) =>
+    <T extends keyof AvatarState>(prop: T, value: AvatarState[T]) =>
       setAvatarState((prevState) => ({
         ...prevState,
         [prop]: value,
@@ -26,16 +48,22 @@ const Board = ({ style }) => {
   );
 
   const getDestinationX = useCallback(() => {
+    if (!$scrollContainer) return;
     const { scrollTop, clientHeight, scrollHeight } = $scrollContainer;
 
     return Math.floor((scrollTop / (scrollHeight - clientHeight)) * boardWidth);
   }, [$scrollContainer, boardWidth]);
 
   const animate = useCallback(
-    (count, currentY, currentX, currentDestinationX) => {
+    (
+      count: number,
+      currentY: number,
+      currentX: number,
+      currentDestinationX: number
+    ) => {
       if (count >= 150) {
         moveAvatar("locationX", currentDestinationX);
-        cancelAnimationFrame(animationId.current);
+        cancelAnimationFrame(animationId.current!);
         isAnimationRunning.current = false;
         return;
       }
@@ -44,12 +72,12 @@ const Board = ({ style }) => {
 
       //setX
       if (currentDestinationX !== newDestinationX) {
-        if (currentDestinationX < newDestinationX) {
+        if (currentDestinationX < newDestinationX!) {
           moveAvatar("movingRight", true);
         } else {
           moveAvatar("movingRight", false);
         }
-        currentDestinationX = newDestinationX;
+        currentDestinationX = newDestinationX!;
         count = 30;
       }
       currentX += ((currentDestinationX - currentX) * count) / 1500;
@@ -86,7 +114,7 @@ const Board = ({ style }) => {
 
       isAnimationRunning.current = true;
       animationId.current = requestAnimationFrame(() =>
-        animate(animationCount, ratioY, avatarState.locationX, newDestinationX)
+        animate(animationCount, ratioY, avatarState.locationX, newDestinationX!)
       );
     }
   }, [animate, avatarState.locationX]);
@@ -97,12 +125,11 @@ const Board = ({ style }) => {
 
     return () => {
       $scrollContainer?.removeEventListener("scroll", handleScroll);
-      cancelAnimationFrame(animationId);
     };
   }, [$scrollContainer, boardWidth, avatarState.locationX]);
 
   return (
-    <div ref={boardRef} style={{ ...getStyle("board"), ...style }}>
+    <div ref={boardRef} style={{ ...defaultStyle, ...style }}>
       <Avatar avatarState={avatarState} height={Math.floor(boardHeight / 2)} />
     </div>
   );
