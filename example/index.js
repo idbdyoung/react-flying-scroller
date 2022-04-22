@@ -11,7 +11,7 @@ import Home from "./pages/Home";
 import Some from "./pages/Some";
 
 const container = document.getElementById("root");
-const root = createRoot(container!);
+const root = createRoot(container);
 const GlobalStyle = createGlobalStyle`
   ${reset}
 `;

@@ -56,8 +56,8 @@ const SecondButton = styled.div`
 const Home = () => {
   return (
     <Cont>
-      <Board />
-      <FlyScrollerContainer avatar={avatar} style={{ flex: 1 }}>
+      <Board style={{ height: "50px" }} />
+      <FlyScrollerContainer style={{ flex: 1 }}>
         <FirstButton onClick={useDirectScroll("first")}>첫번째</FirstButton>
         <SecondButton onClick={useDirectScroll("second")}>두번째</SecondButton>
         <Wrapper name="first">

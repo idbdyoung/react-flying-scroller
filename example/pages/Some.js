@@ -29,7 +29,7 @@ const Third = styled.div`
 const Some = () => {
   return (
     <Container>
-      <Board />
+      {/* <Board />
       <FlyScrollerContainer style={{ flex: 1 }}>
         <Wrapper>
           <First />
@@ -40,7 +40,7 @@ const Some = () => {
         <Wrapper>
           <Third />
         </Wrapper>
-      </FlyScrollerContainer>
+      </FlyScrollerContainer> */}
     </Container>
   );
 };
