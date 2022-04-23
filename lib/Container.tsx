@@ -34,7 +34,7 @@ const Container: React.FC<ContainerProps> = ({
     if (avatarImage) {
       scroller.registAvatarImage(avatarImage);
     }
-  }, [avatarImage]);
+  }, []);
 
   return (
     <div

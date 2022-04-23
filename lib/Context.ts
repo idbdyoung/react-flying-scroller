@@ -1,8 +1,8 @@
 import { createContext } from "react";
 
 export type AvatarImage = {
-  walking: JSX.Element;
-  flying: JSX.Element;
+  Walking: any;
+  Flying: any;
 };
 
 export type DirectPoints = {

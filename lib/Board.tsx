@@ -109,7 +109,6 @@ const Board = ({ style }: { style?: CSSProperties }) => {
     if (!isAnimationRunning.current) {
       let animationCount = 0;
       let ratioY = 0;
-
       const newDestinationX = getDestinationX();
 
       isAnimationRunning.current = true;

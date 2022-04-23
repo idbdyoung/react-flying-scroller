@@ -34,7 +34,10 @@ const Avatar: React.FC<AvatarProps> = ({ avatarState, height }) => {
       }}
     >
       {avatarImage ? (
-        <div></div>
+        <img
+          style={{ height: "100%" }}
+          src={flyingEffect ? avatarImage.Flying : avatarImage.Walking}
+        />
       ) : (
         <div
           style={{
@@ -45,21 +48,6 @@ const Avatar: React.FC<AvatarProps> = ({ avatarState, height }) => {
           }}
         />
       )}
-      {/* {avatarImage.flying && avatarImage.walking ? (
-        <img
-          style={{ height: "100%" }}
-          src={flyingEffect ? avatarImage.flying : avatarImage.walking}
-        />
-      ) : (
-        <div
-          style={{
-            height: "100%",
-            aspectRatio: 1,
-            borderRadius: "100%",
-            background: "black",
-          }}
-        />
-      )} */}
     </div>
   );
 };
