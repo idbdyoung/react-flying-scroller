@@ -1,7 +1,7 @@
 import { createContext } from "react";
 
 export type AvatarImage = {
-  Walking: any;
+  Standing: any;
   Flying: any;
 };
 

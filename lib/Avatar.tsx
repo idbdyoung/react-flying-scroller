@@ -36,7 +36,7 @@ const Avatar: React.FC<AvatarProps> = ({ avatarState, height }) => {
       {avatarImage ? (
         <img
           style={{ height: "100%" }}
-          src={flyingEffect ? avatarImage.Flying : avatarImage.Walking}
+          src={flyingEffect ? avatarImage.Flying : avatarImage.Standing}
         />
       ) : (
         <div

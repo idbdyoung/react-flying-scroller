@@ -23,7 +23,6 @@ const defaultStyle: CSSProperties = {
   width: "100%",
   height: "100px",
   overflowY: "scroll",
-  background: "pink",
   position: "relative",
 };
 
