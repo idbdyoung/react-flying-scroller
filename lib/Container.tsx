@@ -1,12 +1,13 @@
 import React, { CSSProperties, useEffect, useRef } from "react";
 import useScroller from "./hooks/useScroller";
 
-import type { AvatarImage } from "./Context";
+import type { AvatarImage, GameOptions } from "./Context";
 
 interface ContainerProps {
   children: React.ReactNode;
   style?: CSSProperties;
   avatarImage?: AvatarImage;
+  gameOptions?: GameOptions;
 }
 
 const defaultStyle: CSSProperties = {
@@ -20,6 +21,7 @@ const Container: React.FC<ContainerProps> = ({
   children,
   style,
   avatarImage,
+  gameOptions,
 }) => {
   const scroller = useScroller();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -28,11 +30,11 @@ const Container: React.FC<ContainerProps> = ({
     if (scrollContainerRef.current) {
       scroller.registScrollContainer(scrollContainerRef.current);
     }
-  }, [scrollContainerRef.current]);
-
-  useEffect(() => {
     if (avatarImage) {
       scroller.registAvatarImage(avatarImage);
+    }
+    if (gameOptions) {
+      scroller.registGameOptions(gameOptions);
     }
   }, []);
 

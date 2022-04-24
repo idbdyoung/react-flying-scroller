@@ -27,7 +27,7 @@ const defaultStyle: CSSProperties = {
 };
 
 const Board = ({ style }: { style?: CSSProperties }) => {
-  const { $scrollContainer } = useScroller();
+  const { $scrollContainer, gameOptions, gamePlayable } = useScroller();
   const { boardRef, width: boardWidth, height: boardHeight } = useBoard();
   const isAnimationRunning = useRef(false);
   const animationId = useRef<number>();
@@ -36,6 +36,7 @@ const Board = ({ style }: { style?: CSSProperties }) => {
     flyingEffect: "",
     movingRight: true,
   });
+  const initializing = useRef(false);
 
   const moveAvatar = useCallback(
     <T extends keyof AvatarState>(prop: T, value: AvatarState[T]) =>
@@ -60,6 +61,8 @@ const Board = ({ style }: { style?: CSSProperties }) => {
       currentX: number,
       currentDestinationX: number
     ) => {
+      if (!boardRef.current) return;
+      if (initializing.current) return;
       if (count >= 150) {
         moveAvatar("locationX", currentDestinationX);
         cancelAnimationFrame(animationId.current!);
@@ -82,8 +85,8 @@ const Board = ({ style }: { style?: CSSProperties }) => {
       currentX += ((currentDestinationX - currentX) * count) / 1500;
       moveAvatar("locationX", currentX);
 
-      //setY
       if (currentY >= 100) {
+        //setY
         currentY--;
         moveAvatar("flyingEffect", `translateY(-${currentY}%)`);
       } else {
@@ -91,6 +94,7 @@ const Board = ({ style }: { style?: CSSProperties }) => {
           currentY++;
           moveAvatar("flyingEffect", `translateY(-${currentY}%)`);
         } else if (count > 120) {
+          cancelAnimationFrame(animationId.current!);
           moveAvatar("flyingEffect", "");
         } else {
           currentY--;
@@ -105,17 +109,19 @@ const Board = ({ style }: { style?: CSSProperties }) => {
   );
 
   const handleScroll = useCallback(() => {
-    if (!isAnimationRunning.current) {
-      let animationCount = 0;
-      let ratioY = 0;
-      const newDestinationX = getDestinationX();
-
-      isAnimationRunning.current = true;
-      animationId.current = requestAnimationFrame(() =>
-        animate(animationCount, ratioY, avatarState.locationX, newDestinationX!)
-      );
+    if (initializing.current) {
+      cancelAnimationFrame(animationId.current!);
     }
-  }, [animate, avatarState.locationX]);
+    if (isAnimationRunning.current) return;
+    let animationCount = 0;
+    let ratioY = 0;
+    const newDestinationX = getDestinationX();
+
+    isAnimationRunning.current = true;
+    animationId.current = requestAnimationFrame(() =>
+      animate(animationCount, ratioY, avatarState.locationX, newDestinationX!)
+    );
+  }, [animate, initializing.current]);
 
   useEffect(() => {
     if (!$scrollContainer || !boardWidth) return;
@@ -124,10 +130,44 @@ const Board = ({ style }: { style?: CSSProperties }) => {
     return () => {
       $scrollContainer?.removeEventListener("scroll", handleScroll);
     };
-  }, [$scrollContainer, boardWidth, avatarState.locationX]);
+  }, [$scrollContainer, boardWidth]);
 
   return (
     <div ref={boardRef} style={{ ...defaultStyle, ...style }}>
+      {gameOptions && gamePlayable && (
+        <div
+          style={{
+            zIndex: "10",
+            position: "absolute",
+            top: "0",
+            left: `${(window.innerWidth * gameOptions.range.start) / 100}px`,
+            width: `${
+              (window.innerWidth *
+                (gameOptions.range.end - gameOptions.range.start)) /
+              100
+            }`,
+            borderTop: `${gameOptions.difficulty ?? 2}px solid red`,
+          }}
+        />
+      )}
+      {gameOptions && gamePlayable && (
+        <div
+          style={{
+            zIndex: "10",
+            position: "absolute",
+            bottom: "0",
+            left: `${Math.floor(
+              (window.innerWidth * gameOptions.range.start) / 100
+            )}px`,
+            width: `${
+              (window.innerWidth *
+                (gameOptions.range.end - gameOptions.range.start)) /
+              100
+            }`,
+            borderBottom: `${gameOptions.difficulty ?? 2}px solid red`,
+          }}
+        />
+      )}
       <Avatar avatarState={avatarState} height={Math.floor(boardHeight / 2)} />
     </div>
   );

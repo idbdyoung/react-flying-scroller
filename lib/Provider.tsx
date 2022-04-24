@@ -1,15 +1,18 @@
 import React, { useCallback, useRef, useState } from "react";
 
-import ScrollerContext from "./Context";
+import ScrollerContext, { GameOptions } from "./Context";
 import type { AvatarImage, DirectPoints } from "./Context";
 
 const useProvideScroller = () => {
+  const lastContentTop = useRef<number>(0);
+  const isFirstContent = useRef<boolean>(true);
   const [$scrollContainer, setScrollContainer] = useState<HTMLDivElement>();
   const [avatarWidth, setAvatarWidth] = useState<number>(0);
   const [avatarImage, setAvatarImage] = useState<AvatarImage>();
-  const lastContentTop = useRef<number>(0);
-  const isFirstContent = useRef<boolean>(true);
   const [directPoints, setDirectPoints] = useState<DirectPoints>({});
+  const [gameOptions, setGameOptions] = useState<GameOptions>();
+  const [gamePlayable, setGamePlayable] = useState<boolean>(false);
+  const [startLeft, setStartLeft] = useState<boolean>(true);
 
   const registScrollContainer = useCallback(
     ($el: HTMLDivElement) => setScrollContainer($el),
@@ -41,15 +44,26 @@ const useProvideScroller = () => {
     }));
   }, []);
 
+  const registGameOptions = useCallback((option: GameOptions) => {
+    setGamePlayable(true);
+    setGameOptions(option);
+  }, []);
+
   return {
     $scrollContainer,
     avatarImage,
     avatarWidth,
     directPoints,
+    gameOptions,
+    gamePlayable,
+    startLeft,
     registScrollContainer,
     registAvatarImage,
     registAvatarWidth,
     registDirectPoint,
+    registGameOptions,
+    setGamePlayable,
+    setStartLeft,
   };
 };
 

@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import useScroller from "./useScroller";
 import useWindowWidth from "./useWindowWidth";
 
-const useBoardWidth = () => {
+const useBoard = () => {
   const { avatarWidth } = useScroller();
   const windowWidth = useWindowWidth();
   const boardRef = useRef<HTMLDivElement>(null);
@@ -19,4 +19,4 @@ const useBoardWidth = () => {
   return { boardRef, width, height };
 };
 
-export default useBoardWidth;
+export default useBoard;
