@@ -1,73 +1,85 @@
 import React from "react";
 import styled from "styled-components";
 
-import Avatar from "../images/Avatar.png";
-import FlyingAvatar from "../images/FlyingAvatar.png";
-
 import {
   Container as FlyScrollerContainer,
   Wrapper,
   Board,
   useDirectScroll,
+  useGame,
 } from "../../lib";
 
-const Cont = styled.div`
+import ResetButton from "../components/ResetButton";
+import Content from "../components/Content";
+import ScrollButotn from "../components/ScrollButton";
+import Standing from "../images/Avatar.png";
+import Flying from "../images/FlyingAvatar.png";
+
+const Container = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100vh;
 `;
-const First = styled.div`
+
+const NavigationContainer = styled.div`
+  position: absolute;
+  top: 70px;
+  left: 20px;
   display: flex;
-  width: 100%;
-  height: 1500px;
-  background: yellow;
-`;
-const Second = styled.div`
-  width: 100%;
-  height: 1500px;
-  background: green;
+  flex-direction: column;
 `;
 
-const avatar = {
-  walking: Avatar,
-  flying: FlyingAvatar,
+const contents = [
+  { name: "first", color: "#4f85ed" },
+  { name: "second", color: "#57A85C" },
+  { name: "third", color: "#F2C043" },
+  { name: "fourth", color: "#DA4E3D" },
+];
+
+const gameOptions = {
+  range: {
+    start: 5,
+    end: 95,
+  },
+  difficulty: 1,
 };
 
-const FirstButton = styled.div`
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 10px;
-  height: 10px;
-  background: yellow;
-`;
-
-const SecondButton = styled.div`
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 10px;
-  height: 10px;
-  background: yellow;
-`;
-
 const Home = () => {
+  const { gamePlayable, playAgain } = useGame();
+
   return (
-    <Cont>
-      <Board style={{ height: "50px" }} />
-      <FlyScrollerContainer style={{ flex: 1 }}>
-        <FirstButton onClick={useDirectScroll("first")}>첫번째</FirstButton>
-        <SecondButton onClick={useDirectScroll("second")}>두번째</SecondButton>
-        <Wrapper name="first">
-          <First>first</First>
-        </Wrapper>
-        <Wrapper name="second">
-          <Second>second</Second>
-        </Wrapper>
+    <Container>
+      <Board style={{ height: "50px" }} gameBoarderColor={"#DA4E3D"} />
+      {!gamePlayable && (
+        <>
+          <NavigationContainer>
+            {contents.map(({ name, color, flex }) => (
+              <ScrollButotn
+                key={name}
+                flex={flex}
+                onClick={useDirectScroll(name)}
+                name={name}
+                color={color}
+              />
+            ))}
+          </NavigationContainer>
+          <ResetButton onClick={playAgain} />
+        </>
+      )}
+      <FlyScrollerContainer
+        style={{ flex: 1 }}
+        avatarImage={{ Standing, Flying }}
+        gameOptions={gameOptions}
+      >
+        {contents.map(({ name, color }) => (
+          <Wrapper key={name} name={name}>
+            <Content color={color}>first</Content>
+          </Wrapper>
+        ))}
       </FlyScrollerContainer>
-    </Cont>
+    </Container>
   );
 };
 
