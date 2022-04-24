@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
 
-import { Provider as FlyingScrollerProvider } from "../lib";
+import { Provider as FlyingScrollerProvider } from "react-flying-scroller";
 
 import App from "./App";
 import Home from "./pages/Home";

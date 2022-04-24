@@ -7,7 +7,7 @@ import {
   Board,
   useDirectScroll,
   useGame,
-} from "../../lib";
+} from "react-flying-scroller";
 
 import ResetButton from "../components/ResetButton";
 import Content from "../components/Content";
