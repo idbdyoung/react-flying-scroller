@@ -30,6 +30,7 @@ const useProvideScroller = () => {
   );
 
   const registDirectPoint = useCallback((name: string, height: number) => {
+    let currentHeight = 0;
     if (directPoints.hasOwnProperty(name)) return;
 
     if (isFirstContent.current) {
@@ -37,10 +38,11 @@ const useProvideScroller = () => {
       return setDirectPoints({ [name]: 0 });
     }
     lastContentTop.current += height;
+    currentHeight = lastContentTop.current;
 
     setDirectPoints((prevState) => ({
       ...prevState,
-      [name]: lastContentTop.current,
+      [name]: currentHeight,
     }));
   }, []);
 

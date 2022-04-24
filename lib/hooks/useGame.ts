@@ -11,7 +11,7 @@ const useGame = () => {
 
   const playAgain = () => {
     if ($scrollContainer) $scrollContainer.style.overflowY = "hidden";
-    if (startLeft) {
+    if (!startLeft) {
       $scrollContainer?.scroll({ top: 0, behavior: "smooth" });
     } else {
       $scrollContainer?.scroll({

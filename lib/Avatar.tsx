@@ -26,7 +26,7 @@ const Avatar: React.FC<AvatarProps> = ({ avatarState, height }) => {
   useEffect(() => {
     if (avatarContainerRef.current) {
       if (gameOptions && gamePlayable) {
-        if (startLeft) {
+        if (startLeft && !initializing.current) {
           if (
             gamePlayable &&
             Number(avatarContainerRef.current.style.left.split("px")[0]) >
@@ -38,7 +38,7 @@ const Avatar: React.FC<AvatarProps> = ({ avatarState, height }) => {
         } else {
           if (
             gamePlayable &&
-            Number(avatarContainerRef.current.style.left.split("px")[0]) <
+            Number(avatarContainerRef.current.style.left.split("px")[0]) + 30 <
               Math.floor((gameOptions.range.start / 100) * window.innerWidth)
           ) {
             setGamePlayable(false);
@@ -73,10 +73,6 @@ const Avatar: React.FC<AvatarProps> = ({ avatarState, height }) => {
           Number(avatarContainerRef.current.style.left.split("px")[0]) <
             Math.floor((gameOptions.range.end / 100) * window.innerWidth)
         ) {
-          console.log(
-            Math.floor((gameOptions.range.start / 100) * window.innerWidth),
-            avatarContainerRef.current.style.transform
-          );
           if (
             avatarContainerRef.current.style.transform.includes(
               `translateY(-${
@@ -106,7 +102,7 @@ const Avatar: React.FC<AvatarProps> = ({ avatarState, height }) => {
 
       registAvatarWidth(avatarContainerRef.current.clientWidth);
     }
-  }, [avatarContainerRef.current, flyingEffect]);
+  }, [avatarContainerRef.current, flyingEffect, gamePlayable]);
 
   return (
     <div

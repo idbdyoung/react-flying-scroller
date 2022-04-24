@@ -26,7 +26,12 @@ const defaultStyle: CSSProperties = {
   position: "relative",
 };
 
-const Board = ({ style }: { style?: CSSProperties }) => {
+interface BoardProps {
+  style?: CSSProperties;
+  gameBoarderColor?: string;
+}
+
+const Board: React.FC<BoardProps> = ({ style, gameBoarderColor }) => {
   const { $scrollContainer, gameOptions, gamePlayable } = useScroller();
   const { boardRef, width: boardWidth, height: boardHeight } = useBoard();
   const isAnimationRunning = useRef(false);
@@ -146,7 +151,9 @@ const Board = ({ style }: { style?: CSSProperties }) => {
                 (gameOptions.range.end - gameOptions.range.start)) /
               100
             }`,
-            borderTop: `${gameOptions.difficulty ?? 2}px solid red`,
+            borderTop: `${gameOptions.difficulty ?? 2}px solid ${
+              gameBoarderColor ?? "red"
+            }`,
           }}
         />
       )}
@@ -164,7 +171,9 @@ const Board = ({ style }: { style?: CSSProperties }) => {
                 (gameOptions.range.end - gameOptions.range.start)) /
               100
             }`,
-            borderBottom: `${gameOptions.difficulty ?? 2}px solid red`,
+            borderBottom: `${gameOptions.difficulty ?? 2}px solid ${
+              gameBoarderColor ?? "red"
+            }`,
           }}
         />
       )}
