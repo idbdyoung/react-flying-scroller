@@ -13,7 +13,7 @@ module.exports = merge(common, {
     path: path.resolve(__dirname, "dist"),
     filename: "[name].js",
     libraryTarget: "umd",
-    library: "flying-scrollerss",
+    library: "react-flying-scroller",
   },
   externals: {
     react: "react",
