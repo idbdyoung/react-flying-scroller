@@ -1,5 +1,5 @@
 {
-  "name": "flying-scroller",
+  "name": "react-flying-scroller",
   "description": "scroller with flying effect navigator",
   "version": "1.0.0",
   "author": "idbdyoung <idbd.young@gmail.com> (https://idbdyoung.com)",
@@ -14,7 +14,9 @@
     "scroller",
     "react",
     "react-scroller",
-    "flying-scroller"
+    "flying-scroller",
+    "scroll-navigation",
+    "navigation"
   ],
   "bugs": {
     "url": "https://github.com/idbdyoung/flying-scroller/issues",
