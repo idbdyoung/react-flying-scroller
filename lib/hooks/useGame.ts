@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import useScroller from "./useScroller";
 
 const useGame = () => {
@@ -5,25 +6,29 @@ const useGame = () => {
     $scrollContainer,
     gamePlayable,
     startLeft,
+    initializing,
     setGamePlayable,
     setStartLeft,
   } = useScroller();
 
-  const playAgain = () => {
-    if ($scrollContainer) $scrollContainer.style.overflowY = "hidden";
+  const playAgain = useCallback(() => {
+    if (!$scrollContainer) return;
+    $scrollContainer.style.overflowY = "hidden";
+    initializing.current = true;
+
     if (!startLeft) {
-      $scrollContainer?.scroll({ top: 0, behavior: "smooth" });
+      $scrollContainer.scroll({ top: 0, behavior: "smooth" });
     } else {
-      $scrollContainer?.scroll({
+      $scrollContainer.scroll({
         top: $scrollContainer.scrollHeight,
         behavior: "smooth",
       });
     }
     setGamePlayable(true);
     setStartLeft(!startLeft);
-  };
+  }, [$scrollContainer, startLeft]);
 
-  return [gamePlayable, playAgain];
+  return { gamePlayable, playAgain };
 };
 
 export default useGame;

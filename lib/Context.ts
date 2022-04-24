@@ -26,6 +26,7 @@ type Context = {
   gameOptions?: GameOptions;
   gamePlayable: boolean;
   startLeft: boolean;
+  initializing: React.MutableRefObject<boolean>;
   registScrollContainer: ($el: HTMLDivElement) => void;
   registAvatarImage: (avatarImage: AvatarImage) => void;
   registAvatarWidth: (size: number) => void;
@@ -43,6 +44,7 @@ const initial = {
   gameOptions: undefined,
   gamePlayable: false,
   startLeft: true,
+  initializing: { current: false },
   registScrollContainer: () => {},
   registAvatarImage: () => {},
   registAvatarWidth: () => {},

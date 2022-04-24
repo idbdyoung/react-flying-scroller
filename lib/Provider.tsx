@@ -13,6 +13,7 @@ const useProvideScroller = () => {
   const [gameOptions, setGameOptions] = useState<GameOptions>();
   const [gamePlayable, setGamePlayable] = useState<boolean>(false);
   const [startLeft, setStartLeft] = useState<boolean>(true);
+  const initializing = useRef<boolean>(false);
 
   const registScrollContainer = useCallback(
     ($el: HTMLDivElement) => setScrollContainer($el),
@@ -59,6 +60,7 @@ const useProvideScroller = () => {
     gameOptions,
     gamePlayable,
     startLeft,
+    initializing,
     registScrollContainer,
     registAvatarImage,
     registAvatarWidth,

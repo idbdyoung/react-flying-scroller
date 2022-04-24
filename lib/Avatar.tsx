@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 
 import useScroller from "./hooks/useScroller";
 
@@ -18,91 +18,96 @@ const Avatar: React.FC<AvatarProps> = ({ avatarState, height }) => {
     gameOptions,
     gamePlayable,
     startLeft,
+    initializing,
     registAvatarWidth,
     setGamePlayable,
   } = useScroller();
-  const initializing = useRef(false);
+
+  const moveAvatarToStart = useCallback(() => {
+    if (!$scrollContainer) return;
+    initializing.current = true;
+    $scrollContainer.style.overflowY = "hidden";
+
+    if (startLeft) {
+      $scrollContainer?.scroll({ top: 0, behavior: "smooth" });
+    } else {
+      $scrollContainer?.scroll({
+        top: $scrollContainer.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, [$scrollContainer, startLeft]);
 
   useEffect(() => {
-    if (avatarContainerRef.current) {
-      if (gameOptions && gamePlayable) {
-        if (startLeft && !initializing.current) {
-          if (
-            gamePlayable &&
-            Number(avatarContainerRef.current.style.left.split("px")[0]) >
-              Math.floor((gameOptions.range.end / 100) * window.innerWidth)
-          ) {
-            setGamePlayable(false);
-            alert("클리어");
-          }
-        } else {
-          if (
-            gamePlayable &&
-            Number(avatarContainerRef.current.style.left.split("px")[0]) + 30 <
-              Math.floor((gameOptions.range.start / 100) * window.innerWidth)
-          ) {
-            setGamePlayable(false);
-            alert("클리어");
-          }
-        }
+    if (!avatarContainerRef.current) return;
+    if (!$scrollContainer) return;
+    if (gameOptions && gamePlayable) {
+      const currentAvatarPx = Number(
+        avatarContainerRef.current.style.left.split("px")[0]
+      );
+      const currentAvatarLanding =
+        !avatarContainerRef.current.style.transform.includes("translateY");
+      const leftSideClearPx = Math.floor(
+        Math.floor((gameOptions.range.start / 100) * window.innerWidth)
+      );
+      const rightSideClearPx = Math.floor(
+        (gameOptions.range.end / 100) * window.innerWidth
+      );
 
-        if (startLeft) {
-          if (
-            Number(avatarContainerRef.current.style.left.split("px")[0]) <=
-              Math.floor((gameOptions.range.start / 100) * window.innerWidth) &&
-            !avatarContainerRef.current.style.transform.includes("translateY")
-          ) {
-            initializing.current = false;
-            if ($scrollContainer) $scrollContainer.style.overflowY = "scroll";
-          }
-        } else {
-          if (
-            Number(avatarContainerRef.current.style.left.split("px")[0]) >=
-              Math.floor((gameOptions.range.end / 100) * window.innerWidth) &&
-            !avatarContainerRef.current.style.transform.includes("translateY")
-          ) {
-            initializing.current = false;
-            if ($scrollContainer) $scrollContainer.style.overflowY = "scroll";
-          }
+      //게임 클리어 조건
+      if (startLeft) {
+        if (!initializing.current && currentAvatarPx > rightSideClearPx) {
+          setGamePlayable(false);
+          alert("클리어 🚀🚀");
         }
-
-        if (
-          !initializing.current &&
-          Number(avatarContainerRef.current.style.left.split("px")[0]) >
-            Math.floor((gameOptions.range.start / 100) * window.innerWidth) &&
-          Number(avatarContainerRef.current.style.left.split("px")[0]) <
-            Math.floor((gameOptions.range.end / 100) * window.innerWidth)
-        ) {
-          if (
-            avatarContainerRef.current.style.transform.includes(
-              `translateY(-${
-                100 - (gameOptions.difficulty ? gameOptions.difficulty * 3 : 2)
-              }%)`
-            ) ||
-            avatarContainerRef.current.style.transform.includes(
-              `translateY(-${
-                gameOptions.difficulty ? gameOptions.difficulty * 3 : 2
-              }%)`
-            )
-          ) {
-            initializing.current = true;
-            if ($scrollContainer) $scrollContainer.style.overflowY = "hidden";
-            alert("걸렸죠?");
-            if (startLeft) {
-              $scrollContainer?.scroll({ top: 0, behavior: "smooth" });
-            } else {
-              $scrollContainer?.scroll({
-                top: $scrollContainer.scrollHeight,
-                behavior: "smooth",
-              });
-            }
-          }
+      } else {
+        if (!initializing.current && currentAvatarPx + 30 < leftSideClearPx) {
+          setGamePlayable(false);
+          alert("클리어 🚀🚀");
         }
       }
 
-      registAvatarWidth(avatarContainerRef.current.clientWidth);
+      //스크롤 가능하게 하여 게임 재개할 수 있는 조건
+      if (startLeft) {
+        if (currentAvatarPx <= leftSideClearPx && currentAvatarLanding) {
+          initializing.current = false;
+          if ($scrollContainer) $scrollContainer.style.overflowY = "scroll";
+        }
+      } else {
+        if (currentAvatarPx >= rightSideClearPx && currentAvatarLanding) {
+          initializing.current = false;
+          if ($scrollContainer) $scrollContainer.style.overflowY = "scroll";
+        }
+      }
+
+      // 게임 실패하는 조건
+      //x축 확인
+      if (
+        !initializing.current &&
+        currentAvatarPx > leftSideClearPx &&
+        currentAvatarPx < rightSideClearPx
+      ) {
+        //y 축 확인
+        const avatarHeight = Number(
+          avatarContainerRef.current.style.transform
+            ?.split("translateY(-")[1]
+            ?.split("%")[0]
+        );
+
+        if (
+          avatarHeight >
+            100 - (gameOptions.difficulty ? gameOptions.difficulty * 3 : 2) ||
+          avatarHeight <
+            (gameOptions.difficulty ? gameOptions.difficulty * 3 : 2)
+        ) {
+          alert("걸렸죠?");
+          moveAvatarToStart();
+        }
+      }
     }
-  }, [avatarContainerRef.current, flyingEffect, gamePlayable]);
+
+    registAvatarWidth(avatarContainerRef.current.clientWidth);
+  }, [avatarContainerRef.current, flyingEffect, gamePlayable, startLeft]);
 
   return (
     <div
