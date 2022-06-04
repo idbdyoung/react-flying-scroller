@@ -150,7 +150,7 @@ const Board: React.FC<BoardProps> = ({ style, gameBoarderColor }) => {
               (window.innerWidth *
                 (gameOptions.range.end - gameOptions.range.start)) /
               100
-            }`,
+            }%`,
             borderTop: `${gameOptions.difficulty ?? 2}px solid ${
               gameBoarderColor ?? "red"
             }`,
@@ -170,7 +170,7 @@ const Board: React.FC<BoardProps> = ({ style, gameBoarderColor }) => {
               (window.innerWidth *
                 (gameOptions.range.end - gameOptions.range.start)) /
               100
-            }`,
+            }%`,
             borderBottom: `${gameOptions.difficulty ?? 2}px solid ${
               gameBoarderColor ?? "red"
             }`,
