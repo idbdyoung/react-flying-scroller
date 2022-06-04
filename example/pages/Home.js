@@ -48,6 +48,7 @@ const gameOptions = {
 
 const Home = () => {
   const { gamePlayable, playAgain } = useGame();
+  const directScroll = useDirectScroll();
 
   return (
     <Container>
@@ -59,7 +60,7 @@ const Home = () => {
               <ScrollButotn
                 key={name}
                 flex={flex}
-                onClick={useDirectScroll(name)}
+                onClick={() => directScroll(name)}
                 name={name}
                 color={color}
               />
