@@ -1,9 +1,9 @@
 import useScroller from "./useScroller";
 
-const useDirectScroll = (name: string) => {
+const useDirectScroll = () => {
   const { $scrollContainer, directPoints } = useScroller();
 
-  return () => {
+  return (name: string) => {
     $scrollContainer?.scroll({
       top: directPoints[name],
       behavior: "smooth",
